@@ -6,7 +6,7 @@ Transforms your [Untappd](https://untappd.com) beer check-in history into CSV fi
 The script uses best guess estimates to calculate vessel size and alcohol by volume (ABV%) in its conversion to [standard US drinks](https://www.cdc.gov/alcohol/standard-drink-sizes/index.html).
 
 > [!IMPORTANT]
-> The data imported can range in accuracy depending on the information available in your Untappd checkins. ABV values are estimates and may not reflect actual consumption.
+> The data imported can range in accuracy depending on the information available in your Untappd checkins. Container size values are estimates and may not reflect actual consumption.
 
 ## Getting Started
 
