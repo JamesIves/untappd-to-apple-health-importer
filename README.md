@@ -1,6 +1,6 @@
-# Untappd to Apple Health Importer
+<img align="right" width="180" height="auto"  src="./src/images/hand.png" alt="Icon">
 
-<img align="right" width="128" height="auto"  src="./src/images/hand.png" alt="Icon">
+# Untappd to Apple Health Importer
 
 Transforms your [Untappd](https://untappd.com) beer check-in history into CSV files that can be imported into [Apple Health's Alcohol Consumption](https://www.apple.com/health/) tracking via the [Shortcuts app](https://apps.apple.com/us/app/shortcuts/id915249334).
 The script uses best guess estimates to calculate vessel size and alcohol by volume (ABV%) in its conversion to [standard US drinks](https://www.cdc.gov/alcohol/standard-drink-sizes/index.html).
