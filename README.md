@@ -1,11 +1,11 @@
-<img align="right" width="180" height="auto"  src="./src/images/hand.png" alt="Icon">
+<img align="right" width="130" height="auto"  src="./src/images/hand.png" alt="Icon">
 
 # Untappd to Apple Health Importer
 
 Transforms your [Untappd](https://untappd.com) beer check-in history into CSV files that can be imported into [Apple Health's Alcohol Consumption](https://www.apple.com/health/) tracking via the [Shortcuts app](https://apps.apple.com/us/app/shortcuts/id915249334).
 The script uses best guess estimates to calculate vessel size and alcohol by volume (ABV%) in its conversion to [standard US drinks](https://www.cdc.gov/alcohol/standard-drink-sizes/index.html).
 
-# Getting Started
+## Getting Started
 
 Use the following steps to get your data imported.
 
@@ -16,7 +16,7 @@ Use the following steps to get your data imported.
 
 [If you'd like to run the project locally and make a change please check out the contribution guide](./CONTRIBUTING.md). [Any problems can be reported via the issue board](https://github.com/JamesIves/untappd-to-apple-health-importer/issues).
 
-# Common Questions
+### Common Questions
 
 <details>
 <summary>How do I get my Untappd data?</summary>
