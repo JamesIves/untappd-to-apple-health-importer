@@ -13,7 +13,7 @@ The script uses best guess estimates to calculate vessel size and alcohol by vol
 Use the following steps to get your data imported.
 
 1. [Download your Untappd history as JSON by going to the website](https://untappd.com) and going to the `View all beers` page. Requires an [Untappd Insider account](https://insiders.untappd.com/) (their premium subscription).
-2. [Visit the importer page](#) and import the JSON file, hit the convert button.
+2. [Visit the importer page](https://jives.dev/untappd-to-apple-health-importer) and import the JSON file, hit the convert button.
 3. Make sure you have [Shortcuts installed on your iOS device](#) and then import the [Untappd to Apple Health Shortcut](https://www.icloud.com/shortcuts/12395f925b24469f9170f800f5c9e548).
 4. Initialize the shortcut and upload the CSV files that were generated, once done you should see the data on the Alcohol Consumption graph in the Health app.
 
