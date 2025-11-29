@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Transform your Untappd beer check-in history into CSV files that can be imported into Apple Health's Alcohol Consumption tracking via the Shortcuts app."
+    />
+    <meta
+      name="keywords"
+      content="Untappd, Apple Health, Shortcuts, alcohol tracking, beer checkins, CSV converter, health data"
+    />
+    <meta name="theme-color" content="#ffcc00" />
+    <link rel="canonical" href="http://jamesives.github.io/untappd-to-apple-health-importer" />
+    <meta property="og:title" content="Untappd to Apple Health Converter" />
+    <meta
+      property="og:description"
+      content="Transform your Untappd beer check-in history into CSV files that can be imported into Apple Health's Alcohol Consumption tracking via the Shortcuts app."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://jamesives.github.io/untappd-to-apple-health-importer" />
+    <meta property="og:image" content="http://jamesives.github.io/untappd-to-apple-health-importer/src/images/hand.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16-CVZxfwXh.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32-BXyVhtQB.png"
+    />
+    <meta property="og:title" content="Untappd to Apple Health Importer" />
+    <title>Untappd to Apple Health Importer</title>
+    <script type="module" crossorigin src="/assets/index-DfNxqg7N.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C2dnqeGU.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header-content">
+          <h1>
+            <a
+              href="https://untappd.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="header-link"
+              >Untappd</a
+            >
+            to
+            <a
+              href="https://www.apple.com/ios/health/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="header-link"
+              >Apple Health</a
+            >
+          </h1>
+          <p class="subtitle">
+            Transform your Untappd beer check-in history into CSV files that can
+            be imported into Apple Health's Alcohol Consumption tracking via the
+            Shortcuts app.
+            <a
+              href="https://github.com/jamesives/untappd-to-apple-health-importer"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="github-link"
+              >View on GitHub</a
+            >
+          </p>
+        </div>
+        <img
+          src="/assets/hand-BPDW5JnZ.png"
+          alt="Hand holding a beer"
+          class="header-image"
+          width="800"
+          height="1067"
+        />
+      </div>
+
+      <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">📁</div>
+        <p>
+          <strong>Click to upload</strong> or drag and drop your
+          <code>checkins.json</code> file. You can get this
+        </p>
+        <input type="file" id="fileInput" accept=".json,application/json" />
+      </div>
+
+      <p style="text-align: center; color: #999; margin-bottom: 20px">— OR —</p>
+
+      <textarea
+        id="jsonInput"
+        placeholder="Paste your JSON data here..."
+      ></textarea>
+
+      <button id="convertBtn">Convert to CSV</button>
+
+      <div class="stats" id="stats">
+        <div class="stat-row">
+          <span class="stat-label">Total Checkins</span>
+          <span class="stat-value" id="totalCheckins">0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Processed</span>
+          <span class="stat-value" id="processedCount">0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Skipped (no ABV)</span>
+          <span class="stat-value" id="skippedCount">0</span>
+        </div>
+      </div>
+
+      <div class="callout" id="shortcutCallout">
+        <div class="callout-header">
+          <img
+            src="/assets/shortcuts-CGjOZQPy.jpg"
+            alt="Shortcuts App Icon"
+            class="callout-icon"
+            width="800"
+            height="495"
+          />
+        </div>
+        <div class="callout-content">
+          <h3>Time to Import</h3>
+          <p class="callout-subtitle">
+            It's time to import your data into Apple Health using the Shortcuts
+            app
+          </p>
+          <div class="callout-steps">
+            <div class="step">
+              <span class="step-number">1</span>
+              <span class="step-text"
+                >Install the
+                <strong
+                  ><a
+                    href="https://apps.apple.com/us/app/shortcuts/id915249334"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Shortcuts</a
+                  ></strong
+                >
+                app if you don't have it already</span
+              >
+            </div>
+            <div class="step">
+              <span class="step-number">2</span>
+              <span class="step-text"
+                >Import the companion shortcut
+                <a
+                  href="https://www.icloud.com/shortcuts/12395f925b24469f9170f800f5c9e548"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >from here</a
+                ></span
+              >
+            </div>
+            <div class="step">
+              <span class="step-number">3</span>
+              <span class="step-text"
+                >Run the shortcut and select the downloaded CSV files</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="error" id="error"></div>
+
+      <div class="faq">
+        <h2>Frequently Asked Questions</h2>
+
+        <details>
+          <summary>How do I get my Untappd data?</summary>
+          <p>
+            To download your Untappd data, you need to be an
+            <strong>Untappd Insider</strong> (their premium subscription). Once
+            you're an Insider:
+          </p>
+          <ul>
+            <li>Log in to your Untappd account on the web</li>
+            <li>
+              Go to your profile and click on the
+              <strong>"View all beers"</strong> tab
+            </li>
+            <li>
+              Look for the export or download option to get your
+              <code>checkins.json</code> file
+            </li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>How are standard drinks calculated?</summary>
+          <p>
+            Standard drinks are calculated using the formula:
+            <strong>(Volume in mL × ABV% ÷ 100 × 0.789g/mL) ÷ 14g</strong>
+          </p>
+          <p>
+            We use 0.789 g/mL as the density of ethanol and 14 grams of pure
+            alcohol as one US standard drink.
+          </p>
+        </details>
+
+        <details>
+          <summary>What defines a standard drink?</summary>
+          <p>
+            In the United States, one standard drink contains approximately
+            <strong>14 grams (0.6 fl oz) of pure alcohol</strong>. This is
+            typically found in:
+          </p>
+          <ul>
+            <li>12 fl oz of regular beer (~5% ABV)</li>
+            <li>5 fl oz of wine (~12% ABV)</li>
+            <li>1.5 fl oz of distilled spirits (~40% ABV)</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>How are serving sizes determined?</summary>
+          <p>
+            Since Untappd doesn't provide exact serving volumes, we infer them
+            based on the serving type:
+          </p>
+          <ul>
+            <li><strong>Pint/Cask/Nitro:</strong> 16 oz</li>
+            <li><strong>Draft:</strong> 16 oz (or 12 oz if ABV > 7%)</li>
+            <li>
+              <strong>Can/Bottle/Glass:</strong> 12 oz (or 16 oz if ABV > 7%)
+            </li>
+            <li><strong>Flight/Sample:</strong> 5 oz</li>
+          </ul>
+          <p>
+            Higher ABV beers (>7%) are assumed to be served in larger cans
+            (tallboys) or smaller draft pours.
+          </p>
+          <p>
+            <strong>Important:</strong> If vessel sizes aren't properly marked
+            in Untappd, this can lead to inconsistent tracking. For example, if
+            you check in multiple tasting samples but they're not marked as
+            "Flight" or "Sample," they may be calculated as full 12-16oz
+            servings, making it appear you've consumed an unrealistically high
+            number of drinks.
+          </p>
+        </details>
+
+        <details>
+          <summary>Why are some checkins skipped?</summary>
+          <p>
+            Checkins are skipped when the ABV (alcohol by volume) is missing or
+            invalid. Without ABV data, we cannot accurately calculate the
+            standard drinks for that checkin.
+          </p>
+        </details>
+
+        <details>
+          <summary>Why does it export multiple CSV files?</summary>
+          <p>
+            If you have more than 500 checkins, the tool automatically splits
+            your data into multiple CSV files (500 entries per file). This is
+            necessary to prevent memory issues in the Shortcuts app.
+          </p>
+          <p>
+            Processing large CSV files can cause the Shortcuts app to crash or
+            freeze on iPhone. By splitting the data into smaller chunks, each
+            file can be imported successfully without overwhelming your device's
+            memory.
+          </p>
+          <p>
+            Simply import each file one at a time using the shortcut - the data
+            will all be combined in Apple Health automatically.
+          </p>
+        </details>
+
+        <details>
+          <summary>How do I give Shortcuts access to Apple Health?</summary>
+          <p>
+            For the shortcut to import data into Apple Health, you need to grant
+            it permission:
+          </p>
+          <ul>
+            <li>Open the <strong>Settings</strong> app on your iPhone</li>
+            <li>Scroll down and tap <strong>Health</strong></li>
+            <li>Tap <strong>Data Access & Devices</strong></li>
+            <li>Find and tap <strong>Shortcuts</strong></li>
+            <li>
+              Enable <strong>Number of Alcoholic Drinks</strong> (or "All
+              Categories")
+            </li>
+          </ul>
+          <p>
+            You may also be prompted to grant permission when you first run the
+            shortcut.
+          </p>
+        </details>
+
+        <details>
+          <summary>Is my data stored anywhere?</summary>
+          <p>
+            No! This tool runs entirely in your browser. Your JSON data never
+            leaves your device and nothing is uploaded to any server.
+          </p>
+        </details>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a
+        href="https://jamesiv.es"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="footer-link"
+      >
+        <img src="data:image/webp;base64,UklGRqoDAABXRUJQVlA4WAoAAAAQAAAALwAALwAAQUxQSKQAAAABgGLb1vLmCzMz+WQCzMxJW8W+EhXDLDqFqNpqBssWVR3z588IImICtv4l+2sVtyxpZVzkj+Z7odnuaMojmhjiVnEdXOCZJs5xSzjbNU0492hCP/sIE4p9WucfpjqWsPg3bUfCTLe04ActJWkzuDncPG4cl8NFceEfmu+F5nii6S9oin2aGOK2cWO42CtNe00Tu7gN3OCfFnqnKc5pYhtX/8K+A1ZQOCDgAgAAMA4AnQEqMAAwAD6RPJhKJaMiIaq1WqiwEglAE6ZdCSnod3m9f56Zxo+7nEXzgg3lSj1x0YtT7v9QbozDFMi+8IqcpC8uvZw0jHOhe1mxf/Lq69b9J6efGs/Z5TLAs/qopc+c4kVwr45/iqrrjX5CH2qWgzW5j52ATIAA/vX/tTKlVgPIosrJfgV/u53wlAFjrt7TJi6jPXG3aU1VE0jfyoeBYfcKC2y7Cc9ehuoGaRY+WuKHoDAW3sHq2VZEB/cLZerCmRRsrvwJFayz4b/vFksx4MxuJmcDR9/RAkQUudXpPU2zYZUBPscnNuEN3QXtiZEg9kN4rwkzyW/77XrPJWnH/Ub8BvjHoGDqP1H3KXOOE0jSF/qnMhGE7+el0x0dpt7Jqsney1GxOypnnBOXHb1PlouyRG5Uj5/lOO0o3gY5fJXprqLrCajXt4xoY5q2BwMyHyGH3b+qjYzlB3nJc5KQcyr20BW7qlIaSBjnRQV7aeYddyRlLbhK/w/6fwCsh/dgbu14ViOIHP8554cNxkNB1H+Jk20t/flbuflKEjEgCkffWAUDVyjCR5jI2IJ98Gi+2HP/D9iECi6SwKmrj5huUq6cDBWneefuS+L5SmATsnAdJWLGpt6L5fsEbPGSW79y3P0TyaFbh1cRKpQH/P/7B4xJxbdPCAciuswdbdnzVxdg3McnslEKF+yF7b0SKXRKihlenAPhdpmOsjFs0v9wOASfM7fGYxp6mNylrYnbLOt3RJTHpSxhkNQdOcSR9wPOSTeojq1zPSx63ASSLm5wWkpV1lGgYa1gdmeULNDq415TAU62E092kK07YzeuXTEJeDvpd4ULIUeyJy7LcdLcPrMUpAck3rQYWuGqq2fQ+fxHDnuxGb4PEa8ayvUCS501GLSbp+NCiMrrb7my0L7d56f311vYYuBbSJsKK37RJVhHU2zDII6f1lFMxUbuK+2SQNutm8Ke/tmkq7AAAA==" alt="Jives" class="footer-icon" width="48" height="48" />
+        <span>Built by Jives</span>
+      </a>
+    </div>
+
+  </body>
+</html>
